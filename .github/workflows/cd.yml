@@ -18,3 +18,10 @@ jobs:
 
           - name: Run build script
             run: npm run build
+
+          - name: Upload build artifact
+            #TOPIC: Artifact https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts
+            uses: actions/upload-artifact@v2
+            with:
+              name: dist-stage
+              path: dist
