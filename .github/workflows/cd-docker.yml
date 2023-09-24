@@ -6,18 +6,17 @@ on:
     branches:
       - main
 jobs:
-  build:
+  build-docker-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build and push
-        uses: docker/build-push-action@v5
+
+      - name: Build and push to github packages
+        uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          context: .
-          push: true
-          tags: ${{ github.ref }}
-          build-args: |
-            VERSION=${{ github.ref }}
-            BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            VCS_REF=${{ github.sha }}
-            VCS_URL=
+            image: ${{ github.event.repository.name }} # optional, defaults to repository name
+            # tags: v1, latest # If remove will use tag name
+            registry: ghcr.io # optional, defaults to ghcr.io
+            #dockerfile: Dockerfile
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
