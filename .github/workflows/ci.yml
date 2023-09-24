@@ -3,9 +3,12 @@ on:
   push:
     branches:
       - main
+
+# NOTED: Parameter for setting up github action by specifying the working directory
 # defaults:
 #   run:
 #     working-directory: ./frontend
+
 jobs:
   lint-job:
     runs-on: ubuntu-latest
@@ -17,7 +20,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
+          cache: 'npm'
+
       - name: Install dependencies
         run: npm ci
+
       - name: Lint
         run: npm run lint
+        
+      - name: Run format code
+        run: npm run format
