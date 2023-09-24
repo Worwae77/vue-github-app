@@ -33,5 +33,14 @@ jobs:
               uses: actions/download-artifact@v3
               with:
                 name: dist-stage # Name of the artifact to download
-                #path: dist # Directory to download the artifact to
-            - run: ls -la
+                path: dist # Directory to download the artifact to
+            - run: ls dist
+
+            - uses: SerhiiKa/VuePagesAction@1.0.4
+              with:
+                username: ${{ github.actor }} # or your custom username
+                reponame: ${{ github.repository }} # or your custom repo name
+                token: ${{ secrets.GITHUB_TOKEN }} # or your custom token
+                # NOTED:
+                  # 1.should be generate access token from github
+                  # 2. go to repo setting > Actions > general > Workflow permissions > Read and write permissions for workflow files and Read and write permissions for workflow runs
