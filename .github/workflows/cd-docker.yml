@@ -26,7 +26,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             CONTAINER_NAME: 'jwor-vue-app'
-            DOCKER_IMAGE_URL: 'ghcr.io/${{ github.actor }}/${{ github.event.repository.name }}:${{  github.ref_name }}'
+            DOCKER_IMAGE_URL: 'ghcr.io/worwae77/${{ github.event.repository.name }}:${{  github.ref_name }}'
         steps:
         - name: executing remote ssh commands using password
           uses: appleboy/ssh-action@v1.0.0
@@ -38,5 +38,6 @@ jobs:
             script: |
                 docker logout ghcr.io
                 docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}  ghcr.io/${{ github.actor }}/${{ github.event.repository.name }}
+                docker rm -f ${{ env.CONTAINER_NAME }} || true
                 docker pull ${{ env.DOCKER_IMAGE_URL }}
                 docker run --restart=always -d --name ${{ env.CONTAINER_NAME }} -p 6969:80 ${{ env.DOCKER_IMAGE_URL }}
