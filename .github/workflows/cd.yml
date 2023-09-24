@@ -21,7 +21,17 @@ jobs:
 
           - name: Upload build artifact
             #TOPIC: Artifact https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts
-            uses: actions/upload-artifact@v2
+            uses: actions/upload-artifact@v3
             with:
-              name: dist-stage
-              path: dist
+              name: dist-stage # Name of the artifact to upload
+              path: dist # Directory that contains the files and subdirectories to upload
+    deploy-to-production:
+        needs: build-production
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download build artifact
+              uses: actions/download-artifact@v3
+              with:
+                name: dist-stage # Name of the artifact to download
+                #path: dist # Directory to download the artifact to
+            - run: ls -la
