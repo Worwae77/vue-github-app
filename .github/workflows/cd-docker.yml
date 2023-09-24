@@ -1,0 +1,21 @@
+name: Docker Deployment
+on:
+  push:
+    tags:
+      - v3*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ github.ref }}
+          build-args: |
+            VERSION=${{ github.ref }}
+            BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            VCS_REF=${{ github.sha }}
+            VCS_URL=
