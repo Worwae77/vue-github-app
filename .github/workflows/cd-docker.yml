@@ -1,10 +1,10 @@
 name: Docker Deployment
 on:
   push:
-    # tags:
-    #   - v3*
-    branches:
-      - main
+    tags:
+      - v3*
+    # branches:
+    #   - main
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
